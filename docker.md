@@ -44,7 +44,7 @@ This guide will walk you through the process of using Docker Compose to manage a
 ### Specific Test Execution
 - To run a specific test file:
   - **`docker-compose exec fastapi pytest /myapp/tests/test_specific_file.py`**
- 
+
 ### Running Tests with Coverage
 - For executing tests with coverage reports:
   - **`docker-compose exec fastapi pytest --cov=myapp`**
