@@ -81,3 +81,11 @@ class UserListResponse(BaseModel):
     total: int = Field(..., example=100)
     page: int = Field(..., example=1)
     size: int = Field(..., example=10)
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    email: EmailStr
+    role: RoleEnum
+    profile_picture_url: Optional[HttpUrl] = None
+    ...
