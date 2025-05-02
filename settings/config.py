@@ -49,3 +49,8 @@ class Settings(BaseSettings):
 
 # Instantiate settings to be imported in your application
 settings = Settings()
+MINIO_ENDPOINT: str = os.getenv("MINIO_ENDPOINT", "http://localhost:9000")
+MINIO_ACCESS_KEY: str = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
+MINIO_SECRET_KEY: str = os.getenv("MINIO_SECRET_KEY", "minioadmin")
+MINIO_BUCKET: str = os.getenv("MINIO_BUCKET", "profile-pictures")
+MINIO_SECURE: bool = os.getenv("MINIO_SECURE", "False").lower() == "true"
