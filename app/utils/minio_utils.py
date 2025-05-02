@@ -1,32 +1,19 @@
+# Adjust the import according to your project structure
+from settings.config import MINIO_ENDPOINT, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, MINIO_BUCKET
 from minio import Minio
-from minio.error import S3Error
-from fastapi import UploadFile
-from uuid import uuid4
-from settings.config import (MINIO_ENDPOINT, MINIO_ACCESS_KEY,
-                              MINIO_SECRET_KEY, MINIO_BUCKET, MINIO_SECURE)
 
-def get_client() -> Minio:
-    return Minio(
-        endpoint=MINIO_ENDPOINT.replace("http://", "").replace("https://", ""),
+def get_minio_client():
+    client = Minio(
+        endpoint="minio:9000",
         access_key=MINIO_ACCESS_KEY,
         secret_key=MINIO_SECRET_KEY,
-        secure=MINIO_SECURE,
+        secure=False  # Change to True if using HTTPS
     )
-
-def ensure_bucket(client: Minio):
+    
+    # Check and create bucket if it doesn't exist
     if not client.bucket_exists(MINIO_BUCKET):
         client.make_bucket(MINIO_BUCKET)
+        
+    return client
 
-def save_profile_picture(file: UploadFile, user_id: int) -> str:
-    client = get_client()
-    ensure_bucket(client)
-    object_name = f"{user_id}/{uuid4()}.{file.filename.split('.')[-1]}"
-    client.put_object(
-        MINIO_BUCKET,
-        object_name,
-        data=file.file,
-        length=-1,
-        part_size=10*1024*1024,   # stream any size
-        content_type=file.content_type,
-    )
-    return f"{MINIO_ENDPOINT}/{MINIO_BUCKET}/{object_name}"
+# Additional utility functions related to Minio can be added here as needed
