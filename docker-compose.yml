@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.1'
 
 services:
   postgres:
@@ -14,6 +14,8 @@ services:
       retries: 5
     networks:
       - app-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -37,14 +39,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      minio:
-        condition: service_healthy
-    environment:
-      MINIO_ENDPOINT: http://minio:9000
-      MINIO_ACCESS_KEY: admin
-      MINIO_SECRET_KEY: admin123
-      MINIO_BUCKET: profile-pictures
-      MINIO_SECURE: "False"
     networks:
       - app-network
 
@@ -60,28 +54,24 @@ services:
       - app-network
 
   minio:
-    image: minio/minio:latest
-    command: server /data --console-address ":9090"
-    environment:
-      - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=admin123
+    image: minio/minio
     ports:
-      - "9000:9000"   # S3 API
-      - "9090:9090"   # Web UI
+      - "9000:9000"  # Expose MinIO on port 9000 of the host
     volumes:
-      - minio-data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
+      - /mnt/data:/data
+    environment:
+      MINIO_ENDPOINT: "minio:9000"
+      MINIO_ACCESS_KEY: "vineeth@0711"
+      MINIO_SECRET_KEY: "vineeth@0711"
+      MINIO_SECURE: "false"  # Set to "true" for HTTPS
+      MINIO_BUCKET: "profile-pictures"  # Corrected environment variable name
+    command: server /data
     networks:
       - app-network
 
 volumes:
-  postgres-data:
   pgadmin-data:
-  minio-data:
+  postgres-data:
 
 networks:
   app-network:

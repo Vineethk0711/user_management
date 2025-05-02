@@ -41,17 +41,17 @@ class Settings(BaseSettings):
     smtp_username: str = Field(default='your-mailtrap-username', description="Username for SMTP server")
     smtp_password: str = Field(default='your-mailtrap-password', description="Password for SMTP server")
 
-
+    
+    
     class Config:
         # If your .env file is not in the root directory, adjust the path accordingly.
         env_file = ".env"
         env_file_encoding = 'utf-8'
 
 # Instantiate settings to be imported in your application
-
-
-MINIO_ENDPOINT: str = os.getenv("MINIO_ENDPOINT", "http://localhost:9000")
-MINIO_ACCESS_KEY: str = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
-MINIO_SECRET_KEY: str = os.getenv("MINIO_SECRET_KEY", "minioadmin")
-MINIO_BUCKET: str = os.getenv("MINIO_BUCKET", "profile-pictures")
-MINIO_SECURE: bool = os.getenv("MINIO_SECURE", "False").lower() == "true"
+settings = Settings()
+MINIO_ENDPOINT = 'minio:9000'
+MINIO_ACCESS_KEY = 'vineeth@0711'
+MINIO_SECRET_KEY = 'vineeth@0711'
+MINIO_BUCKET = 'profile-pictures'
+MINIO_SECURE = False
