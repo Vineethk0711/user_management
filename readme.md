@@ -35,7 +35,7 @@ Ten new `pytest` cases were added under **`tests/test_storage/`** and **`tests/t
 * Oversized file failure  
 * Non‑existent user upload  
 * MinIO path validation  
-* Schema integrity (`avatar_url` in responses)
+* Schema integrity (`profile_picture_url` in responses)
 
 All tests run automatically in CI; see the test‑related commits in the log.
 
@@ -52,7 +52,7 @@ The project builds automatically in GitHub Actions and publishes to:
 
 <https://hub.docker.com/r/vm674/user_management_api/tags>
 
-```bash
+
 # Pull & run locally
 docker pull vm674/user_management_api:latest
 docker run --rm -p 8000:8000 vm674/user_management_api:latest
