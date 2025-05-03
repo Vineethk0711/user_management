@@ -1,4 +1,62 @@
 
+## Final‑Project Reflection (User Management)
+
+### 1. What I learned
+Over the course of this project I progressed from basic container familiarity to a full Dev Ops workflow:
+
+* **Containerisation:** multi‑stage Docker builds and Docker Compose orchestration  
+* **Automation:** GitHub Actions CI/CD with Buildx multi‑platform builds  
+* **Security:** Trivy vulnerability scanning and dependency patching  
+* **Object storage:** integrating MinIO for avatar uploads  
+
+Debugging the pipeline showed how small version mismatches—FastAPI ↔ Starlette, libc against base images—can break an image or fail a security gate. Resolving those issues forced me to read CVE advisories, upgrade dependencies safely, and refactor the Dockerfile for a minimal attack surface.
+
+On the collaboration side I practised professional workflow: opening GitHub Issues for each bug or feature, working in feature branches, writing descriptive commits (> 25 total), and closing each issue—making CI failures easier to trace and the repo easy to review.
+
+---
+
+### 2. Closed QA issues (5)
+
+| # | Description | Link |
+|---|-------------|------|
+| 1 | Docker container & MinIO port clash | <https://github.com/Vineethk0711/user_management/issues/1> |
+| 2 | Docker packages couldn’t downgrade | <https://github.com/Vineethk0711/user_management/issues/2> |
+| 5 | GitHub Actions push error: access denied | <https://github.com/Vineethk0711/user_management/issues/5> |
+| 6 | psycopg2 `OperationalError` during Alembic migrations | <https://github.com/Vineethk0711/user_management/issues/6> |
+| 7 | Inconsistent profile‑picture field mapping | <https://github.com/Vineethk0711/user_management/issues/7> |
+
+---
+
+### 3. New test suite (10 tests)
+Ten new `pytest` cases were added under **`tests/test_storage/`** and **`tests/test_users/`** covering:
+
+* Successful avatar upload  
+* MIME‑type rejection  
+* Oversized file failure  
+* Non‑existent user upload  
+* MinIO path validation  
+* Schema integrity (`avatar_url` in responses)
+
+All tests run automatically in CI; see the test‑related commits in the log.
+
+---
+
+### 4. New features delivered
+* **Profile‑picture upload endpoint** – Streams an image to MinIO, stores it in a bucket keyed by user ID, and returns a public URL. Integrated with JWT auth and size/MIME validation.
+* **Profile‑picture URL in user profile** – Added `profile_picture_url` column via Alembic migration; every `GET /users/{id}` now returns the stored URL so front‑ends can display avatars without extra calls.
+
+---
+
+### 5. Docker Hub image
+The project builds automatically in GitHub Actions and publishes to:
+
+<https://hub.docker.com/r/vm674/user_management_api/tags>
+
+```bash
+# Pull & run locally
+docker pull vm674/user_management_api:latest
+docker run --rm -p 8000:8000 vm674/user_management_api:latest
+
 
 # The User Management System Final Project: Your Epic Coding Adventure Awaits! 🎉✨🔥
 
