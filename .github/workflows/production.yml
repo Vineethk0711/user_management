@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - feature
-
+      
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -90,6 +90,6 @@ jobs:
         with:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/user_management_api:${{ github.sha }}'
           format: table
-          exit-code: '0'
+          exit-code: ${{ github.ref == 'refs/heads/main' && '1' || '0' }}
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
