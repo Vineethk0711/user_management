@@ -52,11 +52,12 @@ The project builds automatically in GitHub Actions and publishes to:
 
 <https://hub.docker.com/r/vm674/user_management_api/tags>
 
-
+```
 # Pull & run locally
 docker pull vm674/user_management_api:latest
 docker run --rm -p 8000:8000 vm674/user_management_api:latest
 
+```
 
 # The User Management System Final Project: Your Epic Coding Adventure Awaits! 🎉✨🔥
 
