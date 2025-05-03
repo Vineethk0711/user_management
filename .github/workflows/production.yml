@@ -90,6 +90,6 @@ jobs:
         with:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/user_management_api:${{ github.sha }}'
           format: table
-          exit-code: ${{ github.ref == 'refs/heads/main' && '1' || '0' }}
+          exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
